@@ -4,6 +4,7 @@
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const Gap default_gap        = {.isgap = 1, .realgap = 10, .gappx = 10};
 static const unsigned int snap      = 32;       /* snap pixel */
+static const int swallowfloating    = 0;        /* 1 means swallow floating windows by default */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const int usealtbar          = 1;        /* 1 means use non-dwm status bar */
@@ -31,10 +32,12 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class      instance    title       tags mask     iscentered   isfloating   monitor    scratch key */
-	{ "Gimp",     NULL,       NULL,       0,            0,           1,           -1,        0,  },
-	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           0,           -1,        0,  },
-	{ NULL,       NULL,   "scratchpad",   0,            1,           1,           -1,       's'  },
+	/* class        instance    title            tags mask     iscentered   isfloating  isterminal  noswallow    monitor    scratch key */
+	{ "Gimp",       NULL,       NULL,            0,            0,           1,          0,          0,           -1,        0   },
+	{ "Firefox",    NULL,       NULL,            1 << 8,       0,           0,          0,          1,           -1,        0   },
+	{ "Alacritty",  NULL,       NULL,            0,            0,           0,          1,          0,           -1,        0   },
+	{ NULL,         NULL,      "scratchpad",     0,            1,           1,          0,          1,           -1,       's'  },
+	{ NULL,         NULL,      "Event Tester",   0,            0,           0,          0,          1,           -1,        0   }, /* xev */
 };
 
 /* layout(s) */
