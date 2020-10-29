@@ -6,9 +6,6 @@
 # actualfullscreen -> Toggle a window fullscreen
 curl -LO https://dwm.suckless.org/patches/actualfullscreen/dwm-actualfullscreen-20191112-cb3f58a.diff
 
-# alternativetags -> Switch from desc / icons to tag number by keybind
-curl -LO https://dwm.suckless.org/patches/alternativetags/dwm-alternativetags-6.2.diff
-
 # alwaysfullscreen -> Do not allow focus to drift from active fullscreen window
 curl -LO https://dwm.suckless.org/patches/alwaysfullscreen/dwm-alwaysfullscreen-6.1.diff
 
