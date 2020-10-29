@@ -21,9 +21,6 @@ curl -LO https://dwm.suckless.org/patches/bottomstack/dwm-bottomstack-6.1.diff
 # center -> Add an iscentered rule to automatically center clients on the current monitor
 curl -LO https://dwm.suckless.org/patches/center/dwm-center-6.2.diff
 
-# clientspertag -> limit the maximum number of visible clients per tag in tile() layout
-curl -LO https://dwm.suckless.org/patches/clientspertag/dwm-clientspertag-5.6.1.diff
-
 # decorationhints -> Make dwm respect _MOTIF_WM_HINTS property
 curl -LO https://dwm.suckless.org/patches/decoration_hints/dwm-decorhints-6.2.diff
 
@@ -42,9 +39,6 @@ curl -LO https://dwm.suckless.org/patches/gaplessgrid/dwm-gaplessgrid-20160731-5
 # ipc patch -> to control / get events from dwm on an UNIX socket. Needs yajl library
 curl -LO https://dwm.suckless.org/patches/ipc/dwm-ipc-20200824-f04cac6.diff
 
-# movestack -> Move clients around in stack like in XMonad
-curl -LO https://dwm.suckless.org/patches/movestack/dwm-movestack-6.1.diff
-
 # namedscratchpads -> Allows for the creation of multiple scratchpad windows, each assigned to different keybinds
 curl -LO https://dwm.suckless.org/patches/namedscratchpads/dwm-namedscratchpads-6.2.diff
 
@@ -61,5 +55,5 @@ curl -LO https://dwm.suckless.org/patches/sticky/dwm-sticky-6.1.diff
 curl -LO https://dwm.suckless.org/patches/swallow/dwm-swallow-20200807-b2de9b0.diff
 
 # tab -> tabbed layout
-curl -LO https://dwm.suckless.org/patches/tab/dwm-tab-v2b-56a31dc.diff
+curl -LO https://dwm.suckless.org/patches/tab/dwm-6.2-tab-v2b.diff
 
