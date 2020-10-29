@@ -156,3 +156,5 @@ static IPCCommand ipccommands[] = {
   IPCCOMMAND(  quit,                1,      {ARG_TYPE_NONE}   )
 };
 
+/* quitting */
+static const int EMPTY_WINDOW_COUNT = 2;
