@@ -31,10 +31,10 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class      instance    title       tags mask     iscentered   isfloating   monitor    scratch key*/
-	{ "Gimp",     NULL,       NULL,       0,            0,           1,           -1,        0  },
-	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           0,           -1,        0  },
-	{ NULL,       NULL,   "scratchpad",   0,            1,           1,           -1,       's' },
+	/* class      instance    title       tags mask     iscentered   isfloating   monitor    scratch key */
+	{ "Gimp",     NULL,       NULL,       0,            0,           1,           -1,        0,  },
+	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           0,           -1,        0,  },
+	{ NULL,       NULL,   "scratchpad",   0,            1,           1,           -1,       's'  },
 };
 
 /* layout(s) */
@@ -99,6 +99,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
 	{ MODKEY|ShiftMask,             XK_f,      togglefullscr,  {0} },
+	{ MODKEY,                       XK_s,      togglesticky,   {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
 	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
