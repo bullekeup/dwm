@@ -54,6 +54,6 @@ curl -LO https://dwm.suckless.org/patches/sticky/dwm-sticky-6.1.diff
 # swallow -> add window swallowing to dwm
 curl -LO https://dwm.suckless.org/patches/swallow/dwm-swallow-20200807-b2de9b0.diff
 
-# tab -> tabbed layout
-curl -LO https://dwm.suckless.org/patches/tab/dwm-6.2-tab-v2b.diff
+# barpadding -> add a variable to manually add padding for a top bar
+curl -LO https://dwm.suckless.org/patches/barpadding/dwm-barpadding-20200720-bb2e722.diff
 
