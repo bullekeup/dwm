@@ -57,3 +57,5 @@ curl -LO https://dwm.suckless.org/patches/swallow/dwm-swallow-20200807-b2de9b0.d
 # barpadding -> add a variable to manually add padding for a top bar
 curl -LO https://dwm.suckless.org/patches/barpadding/dwm-barpadding-20200720-bb2e722.diff
 
+# bar height -> add a custom variable to manually define the top bar height
+curl -LO https://dwm.suckless.org/patches/bar_height/dwm-bar-height-6.2.diff
