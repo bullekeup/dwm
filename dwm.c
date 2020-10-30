@@ -2015,7 +2015,8 @@ setup(void)
 	if (!drw_fontset_create(drw, fonts, LENGTH(fonts)))
 		die("no fonts could be loaded.");
 	lrpad = drw->fonts->h;
-	bh = user_bh ? user_bh : usealtbar ? 0 : drw->fonts->h + 2;
+	bh = user_bh_percent ? ((user_bh_percent) * (sh / 100)) : \
+		user_bh ? user_bh : usealtbar ? 0 : drw->fonts->h + 2;
 	updategeom();
 	sp = sidepad;
 	vp = (topbar == 1) ? vertpad : - vertpad;
