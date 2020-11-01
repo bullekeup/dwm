@@ -123,7 +123,7 @@ struct Client {
 	int basew, baseh, incw, inch, maxw, maxh, minw, minh;
 	int bw, oldbw;
 	unsigned int tags;
-	int isfixed, iscentered, isfloating, isurgent, neverfocus, oldstate, isfullscreen, issticky, isterminal, noswallow;
+	int isfixed, iscentered, isfloating, isurgent, neverfocus, oldstate, isfullscreen, issticky, isterminal, noswallow, isfixedontop;
 	pid_t pid;
 	char scratchkey;
 	Client *next;
@@ -193,6 +193,7 @@ typedef struct {
 	int noswallow;
 	int monitor;
 	const char scratchkey;
+	int isfixedontop;
 } Rule;
 
 /* function declarations */
@@ -282,6 +283,7 @@ static void tile(Monitor *);
 static void togglebar(const Arg *arg);
 static void togglefloating(const Arg *arg);
 static void togglefullscr(const Arg *arg);
+static void togglefixedontop(const Arg *arg);
 static void togglesticky(const Arg *arg);
 static void togglescratch(const Arg *arg);
 static void toggletag(const Arg *arg);
@@ -401,6 +403,7 @@ applyrules(Client *c)
 	c->isfloating = 0;
 	c->tags = 0;
 	c->scratchkey = 0;
+	c->isfixedontop = 0;
 	XGetClassHint(dpy, c->win, &ch);
 	class    = ch.res_class ? ch.res_class : broken;
 	instance = ch.res_name  ? ch.res_name  : broken;
@@ -415,6 +418,7 @@ applyrules(Client *c)
 			c->isterminal = r->isterminal;
 			c->noswallow  = r->noswallow;
 			c->isfloating = r->isfloating;
+			c->isfixedontop = r->isfixedontop;
 			c->tags |= r->tags;
 			c->scratchkey = r->scratchkey;
 			for (m = mons; m && m->num != r->monitor; m = m->next);
@@ -760,7 +764,7 @@ configurerequest(XEvent *e)
 	if ((c = wintoclient(ev->window))) {
 		if (ev->value_mask & CWBorderWidth)
 			c->bw = ev->border_width;
-		else if (c->isfloating || !selmon->lt[selmon->sellt]->arrange) {
+		else if (c->isfixedontop || c->isfloating || !selmon->lt[selmon->sellt]->arrange) {
 			m = c->mon;
 			if (ev->value_mask & CWX) {
 				c->oldx = c->x;
@@ -934,8 +938,11 @@ drawbar(Monitor *m)
 		if (m->sel) {
 			drw_setscheme(drw, scheme[m == selmon ? SchemeSel : SchemeNorm]);
 			drw_text(drw, x, 0, w - 2 * sp, bh, lrpad / 2, m->sel->name, 0);
-			if (m->sel->isfloating)
+			if (m->sel->isfloating) {
 				drw_rect(drw, x + boxs, boxs, boxw, boxw, m->sel->isfixed, 0);
+				if (m->sel->isfixedontop)
+					drw_rect(drw, x + boxs, bh - boxw, boxw, boxw, 0, 0);
+			}
 		} else {
 			drw_setscheme(drw, scheme[SchemeNorm]);
 			drw_rect(drw, x, 0, w - 2 * sp, bh, 1, 1);
@@ -1288,7 +1295,7 @@ manage(Window w, XWindowAttributes *wa)
 	grabbuttons(c, 0);
 	if (!c->isfloating)
 		c->isfloating = c->oldstate = trans != None || c->isfixed;
-	if (c->isfloating)
+	if (c->isfloating || c->isfixedontop)
 		XRaiseWindow(dpy, c->win);
 	attach(c);
 	attachstack(c);
@@ -1315,7 +1322,8 @@ managealtbar(Window win, XWindowAttributes *wa)
 
 	m->barwin = win;
 	m->by = wa->y;
-	bh = m->bh = wa->height;
+	if (!user_bh && !user_bh_percent)
+		bh = m->bh = wa->height;
 	updatebarpos(m);
 	arrange(m);
 	XSelectInput(dpy, win, EnterWindowMask|FocusChangeMask|PropertyChangeMask|StructureNotifyMask);
@@ -1323,6 +1331,7 @@ managealtbar(Window win, XWindowAttributes *wa)
 	XMapWindow(dpy, win);
 	XChangeProperty(dpy, root, netatom[NetClientList], XA_WINDOW, 32, PropModeAppend,
 		(unsigned char *) &win, 1);
+	XRaiseWindow(dpy, win);
 }
 
 void
@@ -1637,13 +1646,24 @@ restack(Monitor *m)
 	drawbar(m);
 	if (!m->sel)
 		return;
-	if (m->sel->isfloating || !m->lt[m->sellt]->arrange)
+	if (m->sel->isfloating || m->sel->isfixedontop || !m->lt[m->sellt]->arrange)
 		XRaiseWindow(dpy, m->sel->win);
+
+	/* Raise windows marked with fixedontop */
+	for (Monitor *m_search = mons; m_search; m_search = m_search->next) {
+		for(c = m_search->clients; c; c = c->next){
+			if(c->isfixedontop){
+				XRaiseWindow(dpy, c->win);
+				break;
+			}
+		}
+	}
+
 	if (m->lt[m->sellt]->arrange) {
 		wc.stack_mode = Below;
 		wc.sibling = m->barwin;
 		for (c = m->stack; c; c = c->snext)
-			if (!c->isfloating && ISVISIBLE(c)) {
+			if (!c->isfixedontop && !c->isfloating && ISVISIBLE(c)) {
 				XConfigureWindow(dpy, c->win, CWSibling|CWStackMode, &wc);
 				wc.sibling = c->win;
 			}
@@ -1901,6 +1921,9 @@ setfocus(Client *c)
 void
 setfullscreen(Client *c, int fullscreen)
 {
+	if (c->isfixedontop)
+		return;
+
 	if (fullscreen && !c->isfullscreen) {
 		XChangeProperty(dpy, c->win, netatom[NetWMState], XA_ATOM, 32,
 			PropModeReplace, (unsigned char*)&netatom[NetWMFullscreen], 1);
@@ -2271,6 +2294,24 @@ togglefloating(const Arg *arg)
 }
 
 void
+togglefixedontop(const Arg *arg)
+{
+	if (!selmon->sel)
+		return;
+	if (selmon->sel->isfullscreen)
+		return;
+
+	if (selmon->sel->isfixedontop) {
+		selmon->sel->isfixedontop = 0;
+	} else {
+		/* turn on */
+		selmon->sel->isfixedontop = 1;
+	}
+
+ 	arrange(selmon);
+}
+
+void
 togglesticky(const Arg *arg)
 {
 	if (!selmon->sel)
@@ -2426,7 +2467,8 @@ unmanagealtbar(Window w)
 
 	m->barwin = 0;
 	m->by = 0;
-	m->bh = 0;
+	if (!user_bh && !user_bh_percent)
+		m->bh = 0;
 	updatebarpos(m);
 	arrange(m);
 }

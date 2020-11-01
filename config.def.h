@@ -36,12 +36,12 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class        instance    title            tags mask     iscentered   isfloating  isterminal  noswallow    monitor    scratch key */
-	{ "Gimp",       NULL,       NULL,            0,            0,           1,          0,          0,           -1,        0   },
-	{ "Firefox",    NULL,       NULL,            1 << 8,       0,           0,          0,          1,           -1,        0   },
-	{ "Alacritty",  NULL,       NULL,            0,            0,           0,          1,          0,           -1,        0   },
-	{ NULL,         NULL,      "scratchpad",     0,            1,           1,          0,          1,           -1,       's'  },
-	{ NULL,         NULL,      "Event Tester",   0,            0,           0,          0,          1,           -1,        0   }, /* xev */
+	/* class        instance    title            tags mask     iscentered   isfloating  isterminal  noswallow    monitor    scratch key  isfixedontop*/
+	{ "Gimp",       NULL,       NULL,            0,            0,           1,          0,          0,           -1,        0,           0   },
+	{ "Firefox",    NULL,       NULL,            1 << 8,       0,           0,          0,          1,           -1,        0,           0   },
+	{ "Alacritty",  NULL,       NULL,            0,            0,           0,          1,          0,           -1,        0,           0   },
+	{ NULL,         NULL,      "scratchpad",     0,            1,           1,          0,          1,           -1,       's',          0   },
+	{ NULL,         NULL,      "Event Tester",   0,            0,           0,          0,          1,           -1,        0,           0   }, /* xev */
 };
 
 /* layout(s) */
@@ -90,6 +90,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_grave,  togglescratch,  {.v = scratchpadcmd } },
 	{ MODKEY,                       XK_b,      spawn,          {.v = togglepolybarcmd } },
+	{ MODKEY|ShiftMask,             XK_b,      togglefixedontop, {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
 	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
