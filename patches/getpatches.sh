@@ -59,3 +59,6 @@ curl -LO https://dwm.suckless.org/patches/barpadding/dwm-barpadding-20200720-bb2
 
 # bar height -> add a custom variable to manually define the top bar height
 curl -LO https://dwm.suckless.org/patches/bar_height/dwm-bar-height-6.2.diff
+
+# alpha -> support alpha transparency in bar
+curl -LO https://dwm.suckless.org/patches/alpha/dwm-alpha-20180613-b69c870.diff
