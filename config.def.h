@@ -8,15 +8,15 @@ static const int swallowfloating    = 0;        /* 1 means swallow floating wind
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const int user_bh_percent    = 0;        /* 0 means that dwm will calculate bar height, >= 1 means dwm will user_bh_percent * screen_height / 100 as bar height */
-static const int user_bh            = 55;        /* 0 means that dwm will calculate bar height, >= 1 means dwm will user_bh as bar height */
+static const int user_bh            = 35;        /* 0 means that dwm will calculate bar height, >= 1 means dwm will user_bh as bar height */
 static const int vertpad            = 10;       /* vertical padding of bar */
 static const int sidepad            = 10;       /* horizontal padding of bar */
-static const int usealtbar          = 1;        /* 1 means use non-dwm status bar */
+static const int usealtbar          = 0;        /* 1 means use non-dwm status bar */
 static const char *altbarclass      = "Polybar"; /* Alternate bar class name */
 static const char *alttrayname      = "tray";    /* Polybar tray instance name */
 static const char *altbarcmd        = "$HOME/.config/polybar/launch.sh"; /* Alternate bar launch command */
-static const char *fonts[]          = { "monospace:size=10" };
-static const char dmenufont[]       = "monospace:size=10";
+static const char *fonts[]          = { "Iosevka Nerd Font:bold:size=14" };
+static const char dmenufont[]       = "Iosevka Nerd Font:bold:size=14";
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
@@ -42,6 +42,7 @@ static const Rule rules[] = {
 	{ "Alacritty",  NULL,       NULL,            0,            0,           0,          1,          0,           -1,        0,           0   },
 	{ NULL,         NULL,      "scratchpad",     0,            1,           1,          0,          1,           -1,       's',          0   },
 	{ NULL,         NULL,      "Event Tester",   0,            0,           0,          0,          1,           -1,        0,           0   }, /* xev */
+	{ "Polybar",    NULL,      NULL,             0,            0,           0,          0,          1,           -1,        0,           1   },
 };
 
 /* layout(s) */
