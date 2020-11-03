@@ -62,3 +62,6 @@ curl -LO https://dwm.suckless.org/patches/bar_height/dwm-bar-height-6.2.diff
 
 # alpha -> support alpha transparency in bar
 curl -LO https://dwm.suckless.org/patches/alpha/dwm-alpha-20180613-b69c870.diff
+
+# warp -> Move mouse pointer when changing window / monitor focus
+curl -LO https://dwm.suckless.org/patches/warp/dwm-warp-6.2.diff
