@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=dwm
+Comment=Simple dwm session
+Exec=/usr/bin/dwm-wrapper
+TryExec=/opt/local/dwm/bin/dwm
+Type=Application
+DesktopNames=dwm
+X-GDM-SessionRegisters=true

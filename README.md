@@ -22,3 +22,5 @@ yajl: Needed for dwm ipc patch
 
 Check patches and dwm requierements for a list of dependencies.
 
+Depending on the font you're using, you may need to install a patched libxft (like libxft-bgra on Arch) to properly handle emojis / icons and prevent dwm from crashing. I do not have issues with my config using Nerd Fonts.
+
