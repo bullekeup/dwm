@@ -44,13 +44,13 @@ static const Rule rules[] = {
 	{ "Alacritty",  NULL,       NULL,            0,            0,           0,          1,          0,           -1,        0,           0   },
 	{ NULL,         NULL,      "scratchpad",     0,            1,           1,          0,          1,           -1,       's',          0   },
 	{ NULL,         NULL,      "Event Tester",   0,            0,           0,          0,          1,           -1,        0,           0   }, /* xev */
-	{ "element-nightly", NULL, NULL,             1 << 2,       0,           0,          0,          0,           -1,        0,           0   },
+	{ "Element-Nightly", NULL, NULL,             1 << 2,       0,           0,          0,          0,           -1,        0,           0   },
 	{ "Mail",      NULL,       NULL,             1 << 2,       0,           0,          0,          0,           -1,        0,           0   },
 	{ "Thunderbird", NULL,     NULL,             1 << 2,       0,           0,          0,          0,           -1,        0,           0   },
 	{ NULL,        NULL,       "MuttTerm",       1 << 2,       0,           0,          0,          0,           -1,        0,           0   },
 	{ NULL,        NULL,       "KhalTerm",       1 << 2,       0,           0,          0,          0,           -1,        0,           0   },
 	{ NULL,        NULL,       "KhardTerm",      1 << 2,       0,           0,          0,          0,           -1,        0,           0   },
-	{ "brave-browser", NULL,   NULL,             1 << 1,       0,           0,          0,          0,           -1,        0,           0   },
+	{ "Brave-browser", NULL,   NULL,             1 << 1,       0,           0,          0,          0,           -1,        0,           0   },
 	{ "Zathura",   NULL,       NULL,             1 << 3,       0,           0,          0,          0,           -1,        0,           0   },
 	{ "okular",    NULL,       NULL,             1 << 3,       0,           0,          0,          0,           -1,        0,           0   },
 	{ NULL,        NULL,       "VimTerm",        1 << 4,       0,           0,          0,          0,           -1,        0,           0   },
@@ -107,6 +107,9 @@ static const char *dunstcloseallnotifs[] = {"dunstctl", "close-all", NULL };
 static const char *dunsthistory[] = {"dunstctl", "history-pop", NULL };
 static const char *dunstcontextmenu[] = {"dunstctl", "context", NULL };
 
+static const char *launchmuttterm[] = {"alacritty", "-t", "MuttTerm", "-e", "tmux", NULL };
+static const char *launchnvimterm[] = {"alacritty", "-t", "VimTerm", "-e", "tmux", NULL };
+
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_p,      spawn,          {.v = launchercmd } },
@@ -158,6 +161,8 @@ static Key keys[] = {
 	TAGKEYS(                        0x5f,                      7)
 	TAGKEYS(                        0xe7,                      8)
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
+	{ MODKEY|ShiftMask,             XK_m,      spawn,          {.v = launchmuttterm} },
+	{ MODKEY|ShiftMask,             XK_v,      spawn,          {.v = launchnvimterm} },
 };
 
 /* button definitions */

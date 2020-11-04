@@ -2,16 +2,32 @@
 
 [ ! -e "/opt/local/dwm/bin/dwm" ] && { echo "dwm binary not found !"; exit 1; }
 
+DWM_PID=0
+cleanup() {
+  [ ${DWM_PID} -ne 0 ] && { kill ${DWM_PID}; rm /tmp/dwm.pid.${DWM_PID}; }
+  loginctl terminate-session $(loginctl --no-pager --no-legend list-sessions | awk "/$USER/{print \$1; exit;}")
+  exit 0
+}
+
+trap cleanup SIGABRT;
+trap cleanup SIGINT;
+trap cleanup SIGTERM;
+
 # relaunch DWM if the binary changes, otherwise bail
 csum=""
-new_csum=$(sha1sum /opt/local/dwm/bin/dwm)
+new_csum=$(sha1sum /opt/local/dwm/bin/dwm | cut -d ' ' -f 1)
 while true; do
   if [ "$csum" != "$new_csum" ]; then
     csum=$new_csum
-    /opt/local/dwm/bin/dwm >/tmp/dwm.log 2>/tmp/dwm.stderr.log
+    /opt/local/dwm/bin/dwm >/tmp/dwm.log 2>/tmp/dwm.stderr.log &
+    DWM_PID=$!
+    printf "%s" "${DWM_PID}" > /tmp/dwm.pid.${DWM_PID}
+    wait ${DWM_PID}
+    rm /tmp/dwm.pid.${DWM_PID}
   else
+    loginctl terminate-session $(loginctl --no-pager --no-legend list-sessions | awk "/$USER/{print \$1; exit;}")
     exit 0
   fi
-  new_csum=$(sha1sum /opt/local/dwm/bin/dwm)
+  new_csum=$(sha1sum /opt/local/dwm/bin/dwm | cut -d ' ' -f 1)
 done
 
