@@ -47,9 +47,7 @@ static const Rule rules[] = {
 	{ "Element-Nightly", NULL, NULL,             1 << 2,       0,           0,          0,          0,           -1,        0,           0   },
 	{ "Mail",      NULL,       NULL,             1 << 2,       0,           0,          0,          0,           -1,        0,           0   },
 	{ "Thunderbird", NULL,     NULL,             1 << 2,       0,           0,          0,          0,           -1,        0,           0   },
-	{ NULL,        NULL,       "MuttTerm",       1 << 2,       0,           0,          0,          0,           -1,        0,           0   },
-	{ NULL,        NULL,       "KhalTerm",       1 << 2,       0,           0,          0,          0,           -1,        0,           0   },
-	{ NULL,        NULL,       "KhardTerm",      1 << 2,       0,           0,          0,          0,           -1,        0,           0   },
+	{ NULL,        NULL,       "MailTerm",       1 << 2,       0,           0,          0,          0,           -1,        0,           0   },
 	{ "Brave-browser", NULL,   NULL,             1 << 1,       0,           0,          0,          0,           -1,        0,           0   },
 	{ "Zathura",   NULL,       NULL,             1 << 3,       0,           0,          0,          0,           -1,        0,           0   },
 	{ "okular",    NULL,       NULL,             1 << 3,       0,           0,          0,          0,           -1,        0,           0   },
@@ -107,7 +105,7 @@ static const char *dunstcloseallnotifs[] = {"dunstctl", "close-all", NULL };
 static const char *dunsthistory[] = {"dunstctl", "history-pop", NULL };
 static const char *dunstcontextmenu[] = {"dunstctl", "context", NULL };
 
-static const char *launchmuttterm[] = {"alacritty", "-t", "MuttTerm", "-e", "tmux", NULL };
+static const char *launchmuttterm[] = {"sh", "-c", "~/.local/bin/mutt-launcher", NULL };
 static const char *launchnvimterm[] = {"alacritty", "-t", "VimTerm", "-e", "tmux", NULL };
 
 static Key keys[] = {
