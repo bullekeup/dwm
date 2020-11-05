@@ -15,7 +15,7 @@ static const int sidepad            = 0;       /* horizontal padding of bar */
 static const int usealtbar          = 1;        /* 1 means use non-dwm status bar */
 static const char *altbarclass      = "Polybar"; /* Alternate bar class name */
 static const char *alttrayname      = "tray";    /* Polybar tray instance name */
-static const char *altbarcmd        = "$HOME/.config/polybar/launch.sh"; /* Alternate bar launch command */
+static const char *altbarcmd        = "\0"; /* Alternate bar launch command */
 static const char *fonts[]          = { "MesloLGS NF:bold:size=18" };
 static const char dmenufont[]       = "MesloLGS NF:bold:size=18";
 static const char col_gray1[]       = "#222222";
@@ -95,7 +95,7 @@ static const char *termcmd[]  = { "alacritty", NULL };
 static const char *launchercmd[] = { "sh", "-c", "~/.local/share/dwm/launcher", NULL };
 
 /*First arg only serves to match against key in rules*/
-static const char *scratchpadcmd[] = {"s", "alacritty", "-t", "scratchpad", NULL};
+static const char *scratchpadcmd[] = {"s", "sh", "-c", "~/.local/bin/scratchpad-launcher", NULL };
 
 /*Command to toggle polybar (instead of calling togglebar) */
 //static const char *togglepolybarcmd[] = {"polybar-msg", "cmd", "toggle", NULL};
@@ -107,6 +107,8 @@ static const char *dunstcontextmenu[] = {"dunstctl", "context", NULL };
 
 static const char *launchmuttterm[] = {"sh", "-c", "~/.local/bin/mutt-launcher", NULL };
 static const char *launchnvimterm[] = {"alacritty", "-t", "VimTerm", "-e", "tmux", NULL };
+
+static const char *cmdlockscreen[] = {"multilockscreen", "--lock", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -147,8 +149,8 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_equal,  setgaps,        {.i = GAP_TOGGLE} },
 	{ ControlMask,                  XK_space,  spawn,          {.v = dunstclosenotif} },
 	{ ControlMask|ShiftMask,        XK_space,  spawn,          {.v = dunstcloseallnotifs} },
-	{ ControlMask,                  XK_h,      spawn,          {.v = dunsthistory} },
-	{ ControlMask,                  XK_c,      spawn,          {.v = dunstcontextmenu} },
+	{ ControlMask|ShiftMask,        XK_h,      spawn,          {.v = dunsthistory} },
+	{ ControlMask|ShiftMask,        XK_c,      spawn,          {.v = dunstcontextmenu} },
 	TAGKEYS(                        0x26,                      0)
 	TAGKEYS(                        0xe9,                      1)
 	TAGKEYS(                        0x22,                      2)
@@ -161,6 +163,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
 	{ MODKEY|ShiftMask,             XK_m,      spawn,          {.v = launchmuttterm} },
 	{ MODKEY|ShiftMask,             XK_v,      spawn,          {.v = launchnvimterm} },
+	{ MODKEY,                       XK_x,      spawn,          {.v = cmdlockscreen} },
 };
 
 /* button definitions */
