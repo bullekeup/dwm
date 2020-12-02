@@ -51,10 +51,12 @@ static const Rule rules[] = {
 	{ "Brave-browser", NULL,   NULL,             1 << 1,       0,           0,          0,          0,           -1,        0,           0   },
 	{ "Zathura",   NULL,       NULL,             1 << 3,       0,           0,          0,          0,           -1,        0,           0   },
 	{ "okular",    NULL,       NULL,             1 << 3,       0,           0,          0,          0,           -1,        0,           0   },
-	{ NULL,        NULL,       "VimTerm",        1 << 4,       0,           0,          0,          0,           -1,        0,           0   },
+	{ NULL,        NULL,       "EditTerm",       1 << 4,       0,           0,          0,          0,           -1,        0,           0   },
 	{ "DesktopEditors", NULL,  NULL,             1 << 4,       0,           0,          0,          0,           -1,        0,           0   },
 	{ "code-oss",  NULL,       NULL,             1 << 5,       0,           0,          0,          0,           -1,        0,           0   },
-	{ NULL,        NULL,       "GDBTerm",        1 << 5,       0,           0,          0,          0,           -1,        0,           0   },
+	{ "Code",      NULL,       NULL,             1 << 5,       0,           0,          0,          0,           -1,        0,           0   },
+	{ "GDBTerm",   NULL,       NULL,             1 << 5,       0,           0,          0,          0,           -1,        0,           0   },
+	{ "DevTerm",   NULL,       NULL,             1 << 5,       0,           0,          0,          0,           -1,        0,           0,  },
 	{ NULL,        NULL,       "SSHTerm",        1 << 6,       0,           0,          0,          0,           -1,        0,           0   },
 	{ "kicad",     NULL,       NULL,             1 << 7,       0,           0,          0,          0,           -1,        0,           0   },
 };
@@ -106,7 +108,8 @@ static const char *dunsthistory[] = {"dunstctl", "history-pop", NULL };
 static const char *dunstcontextmenu[] = {"dunstctl", "context", NULL };
 
 static const char *launchmuttterm[] = {"sh", "-c", "~/.local/bin/mutt-launcher", NULL };
-static const char *launchnvimterm[] = {"alacritty", "-t", "VimTerm", "-e", "tmux", NULL };
+static const char *launchnvimterm[] = {"alacritty", "-t", "EditTerm", "-e", "tmux", NULL };
+static const char *launchdevwksp[] = {"sh", "-c", "~/.local/bin/devwksp-launcher", NULL };
 
 static const char *cmdlockscreen[] = {"multilockscreen", "--lock", NULL };
 
@@ -136,7 +139,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
 	{ MODKEY|ShiftMask,             XK_f,      togglefullscr,  {0} },
-	{ MODKEY,                       XK_x,      togglesticky,   {0} },
+	{ MODKEY|ShiftMask,             XK_x,      togglesticky,   {0} },
 	{ MODKEY,                       0xe0,      view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             0xe0,      tag,            {.ui = ~0 } },
 	{ MODKEY,                       XK_z,      focusmon,       {.i = -1 } },
@@ -147,10 +150,10 @@ static Key keys[] = {
 	{ MODKEY,                       XK_plus,   setgaps,        {.i = +5 } },
 	{ MODKEY|ShiftMask,             XK_minus,  setgaps,        {.i = GAP_RESET } },
 	{ MODKEY|ShiftMask,             XK_equal,  setgaps,        {.i = GAP_TOGGLE} },
-	{ ControlMask,                  XK_space,  spawn,          {.v = dunstclosenotif} },
+	{ ControlMask|ShiftMask,        XK_c,      spawn,          {.v = dunstclosenotif} },
 	{ ControlMask|ShiftMask,        XK_space,  spawn,          {.v = dunstcloseallnotifs} },
 	{ ControlMask|ShiftMask,        XK_h,      spawn,          {.v = dunsthistory} },
-	{ ControlMask|ShiftMask,        XK_c,      spawn,          {.v = dunstcontextmenu} },
+	{ ControlMask|ShiftMask,        XK_m,      spawn,          {.v = dunstcontextmenu} },
 	TAGKEYS(                        0x26,                      0)
 	TAGKEYS(                        0xe9,                      1)
 	TAGKEYS(                        0x22,                      2)
@@ -164,6 +167,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_m,      spawn,          {.v = launchmuttterm} },
 	{ MODKEY|ShiftMask,             XK_v,      spawn,          {.v = launchnvimterm} },
 	{ MODKEY,                       XK_x,      spawn,          {.v = cmdlockscreen} },
+	{ MODKEY|ShiftMask,             XK_d,      spawn,          {.v = launchdevwksp} },
 };
 
 /* button definitions */
